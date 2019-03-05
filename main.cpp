@@ -37,6 +37,16 @@ std::vector<int> transformStringStream(std::vector<string> numbers) {
     return output;
 }
 
+std::vector<int> transformAtoi(std::vector<string> numbers) {
+    vector<int> output;
+    for (int i = 0; i < numbers.size(); ++i) {
+        const char *c = numbers[i].c_str();
+        int x = std::atoi(c);
+        output.push_back(x);
+    }
+    return output;
+}
+
 vector<string> read_file(string const &path) {
     vector<string> res;
     string num_1;
@@ -70,10 +80,14 @@ int main(int argc, char *argv[]) {
     if (numbers.size() == 0) {
         return 1;
     }
+    std::vector<int> out;
     auto start = get_current_time_fenced();
     switch (argv[1][0] - '0') {
         case 1:
-            std::vector<int> out = transformStringStream(numbers);
+            out = transformStringStream(numbers);
+            break;
+        case 2:
+            out = transformAtoi(numbers);
             break;
     }
     auto end = get_current_time_fenced();
