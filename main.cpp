@@ -7,6 +7,7 @@
 #include <vector>
 #include <cstring>
 #include <stdexcept>
+#include <fstream>
 using std::vector;
 using std::string;
 
@@ -66,6 +67,19 @@ vector<string> read_file(string const &path) {
     return res;
 }
 
+void write_file(std::vector<int> numbers) {
+    std::ofstream file;
+    file.open ("../in.txt");
+    int sum = 0;
+    for (int i = 0; i < numbers.size(); ++i) {
+        sum += numbers[i];
+    }
+    file << sum << std::endl;
+    file << (double)sum / (double)numbers.size();
+    std::cout << sum << std::endl;
+
+}
+
 int main(int argc, char *argv[]) {
 
     if (argc != 4) {
@@ -93,6 +107,8 @@ int main(int argc, char *argv[]) {
     auto end = get_current_time_fenced();
 
     std::cout << "Time = " << to_us(end - start) << std::endl;
+
+    write_file(out);
 
     return 0;
 }
