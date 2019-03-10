@@ -1,23 +1,23 @@
 import os
 import time
 import sys
-import filecmp
 
 
 def runFile(times, inFile, outFile):
     os.system("./Lab2 1 {} {}".format(inFile, outFile))
     with open("../{}".format(outFile)) as f:
         lines = f.read().splitlines()
-    start = time.time()
     for i in range(1, 3):
+        totalTime = 0
         for _ in range(times):
             os.system('./Lab2 {} {} {}'.format(i, inFile, outFile))
-        with open("../{}".format(outFile)) as f:
-            perm = f.read().splitlines()
-            if lines != perm:
-                print("Not same result")
-                return 0
-    print(time.time() - start)
+            with open("../{}".format(outFile)) as f:
+                perm = f.read().splitlines()
+                totalTime += int(perm[2])
+                if lines[:1] != perm[:1]:
+                    print("Not same result")
+                    return 0
+        print("{} is {}".format(i, totalTime))
 
 def main():
     if len(sys.argv) != 4:

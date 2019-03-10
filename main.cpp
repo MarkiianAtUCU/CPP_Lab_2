@@ -67,7 +67,7 @@ vector<string> read_file(string const &path) {
     return res;
 }
 
-void write_file(std::vector<int> numbers) {
+void write_file(std::vector<int> numbers, long long time) {
     std::ofstream file;
     file.open ("../in.txt");
     int sum = 0;
@@ -75,8 +75,8 @@ void write_file(std::vector<int> numbers) {
         sum += numbers[i];
     }
     file << sum << std::endl;
-    file << (double)sum / (double)numbers.size();
-    std::cout << sum << std::endl;
+    file << (float)sum / (float)numbers.size() << std::endl;
+    file << time;
 
 }
 
@@ -106,9 +106,9 @@ int main(int argc, char *argv[]) {
     }
     auto end = get_current_time_fenced();
 
-    std::cout << "Time = " << to_us(end - start) << std::endl;
+    long long time = to_us(end - start);
 
-    write_file(out);
+    write_file(out, time);
 
     return 0;
 }
