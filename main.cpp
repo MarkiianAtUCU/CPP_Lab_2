@@ -108,11 +108,19 @@ int main(int argc, char *argv[]) {
 
     if (argc != 4) {
         std::cout << "Wrong number of files!" << std::endl;
+<<<<<<< HEAD
         std::cout << "The format is following: <number of method> <input file> <output file>" << std::endl;
         return 1;
     }
 
     std::vector<string> numbers = read_file(std::string("../") + std::string(argv[2]));
+=======
+        std::cout << "The format is following: <number of method> <input file> <output file>";
+        return 1;
+    }
+
+    std::vector<string> numbers = read_file(std::string(argv[2]));
+>>>>>>> f7c591857b0db73fb1fc31535363100966e0ebcd
 
     if (numbers.empty()) {
         std::cout<<"Error, file is empty"<<std::endl;
@@ -142,8 +150,13 @@ int main(int argc, char *argv[]) {
 
     auto end = get_current_time_fenced();
     long long time = to_us(end - start);
+    std::cout<<time<<std::endl;
 
+<<<<<<< HEAD
     process_and_write(std::string("../") + std::string(argv[3]), out);
+=======
+    process_and_write(std::string(argv[3]), out);
+>>>>>>> f7c591857b0db73fb1fc31535363100966e0ebcd
 
     return 0;
 }

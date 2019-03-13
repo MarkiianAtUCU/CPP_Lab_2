@@ -1,4 +1,5 @@
 import os
+import subprocess
 import time
 import sys
 
@@ -24,6 +25,7 @@ def runFile(times, inFile, outFile):
                 return 0
         print("{}: {}".format(transformations[i-1], round(minimum*10**6)))
     print("All results are the same")
+
 
 def main():
     if len(sys.argv) != 4:
