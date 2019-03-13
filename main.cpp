@@ -88,7 +88,7 @@ vector<string> read_file(string const &path) {
     return res;
 }
 
-void process_and_write(string filename,std::vector<int> numbers) {
+void process_and_write(const string &filename,std::vector<int> numbers) {
     std::ofstream file;
     file.open (filename);
     int sum = 0;
@@ -96,11 +96,11 @@ void process_and_write(string filename,std::vector<int> numbers) {
         sum+=num;
     }
 
-    std::stringstream ss;
-    ss << std::fixed << std::setprecision(2) << (float)sum / (float)numbers.size();
+
+
 
     file << sum << std::endl;
-    file << ss.str() << std::endl;
+    file << std::to_string((float)sum / (float)numbers.size()) << std::endl;
 }
 
 
