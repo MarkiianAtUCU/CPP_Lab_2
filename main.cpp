@@ -108,11 +108,6 @@ int main(int argc, char *argv[]) {
 
     if (argc != 4) {
         std::cout << "Wrong number of files!" << std::endl;
-        std::cout << "The format is following: <number of method> <input file> <output file>" << std::endl;
-        return 1;
-    }
-
-    std::vector<string> numbers = read_file(std::string("../") + std::string(argv[2]));
         std::cout << "The format is following: <number of method> <input file> <output file>";
         return 1;
     }
@@ -149,7 +144,6 @@ int main(int argc, char *argv[]) {
     long long time = to_us(end - start);
     std::cout<<time<<std::endl;
 
-    process_and_write(std::string("../") + std::string(argv[3]), out);
     process_and_write(std::string(argv[3]), out);
 
     return 0;
