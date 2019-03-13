@@ -3,12 +3,11 @@
 #include <chrono>
 #include <atomic>
 #include <sstream>
+#include <string>
 #include <vector>
 #include <cstring>
 #include <stdexcept>
-#include <functional>
-#include <cmath>
-#include <iomanip>
+#include <fstream>
 using std::vector;
 using std::string;
 
@@ -27,46 +26,26 @@ inline long long to_us(const D& d) {
     return std::chrono::duration_cast<std::chrono::microseconds>(d).count();
 }
 
-
-vector<int> transform(const vector<string>& numbers, std::function<int (string)> const &f) {
+std::vector<int> transformStringStream(std::vector<string> numbers) {
     vector<int> output;
-    output.reserve(numbers.size());
-
-    for (auto const & element:numbers) {
-        output.push_back(f(element));
+    for (int i = 0; i < numbers.size(); ++i) {
+        std::stringstream parser;
+        parser << numbers[i];
+        int x = 0;
+        parser >> x;
+        output.push_back(x);
     }
     return output;
 }
 
-int trStringStream(const string& str) {
-    std::stringstream parser;
-    parser << str;
-    int x = 0;
-    parser >> x;
-    return x;
-}
-
-int trAtoi(string in) {
-    return std::atoi(in.c_str());
-}
-
-int trStoi(string str) {
-    return std::stoi(str);
-}
-
-int trHand(string str) {
-    int counter = static_cast<int>(str.length());
-    int res = 0;
-    for (auto &c:str) {
-        counter -=1;
-        if (c!='-') {
-            res += (c - '0') * static_cast<int>(std::pow(10, counter));
-        }
+std::vector<int> transformAtoi(std::vector<string> numbers) {
+    vector<int> output;
+    for (int i = 0; i < numbers.size(); ++i) {
+        const char *c = numbers[i].c_str();
+        int x = std::atoi(c);
+        output.push_back(x);
     }
-    if (str[0]=='-'){
-        return -res;
-    }
-    return res;
+    return output;
 }
 
 vector<string> read_file(string const &path) {
@@ -88,63 +67,48 @@ vector<string> read_file(string const &path) {
     return res;
 }
 
-void process_and_write(string filename,std::vector<int> numbers) {
+void write_file(std::vector<int> numbers, long long time) {
     std::ofstream file;
-    file.open (filename);
+    file.open ("../in.txt");
     int sum = 0;
-    for (auto &num:numbers){
-        sum+=num;
+    for (int i = 0; i < numbers.size(); ++i) {
+        sum += numbers[i];
     }
-
-    std::stringstream ss;
-    ss << std::fixed << std::setprecision(2) << (float)sum / (float)numbers.size();
-
     file << sum << std::endl;
-    file << ss.str() << std::endl;
-}
+    file << (float)sum / (float)numbers.size() << std::endl;
+    file << time;
 
+}
 
 int main(int argc, char *argv[]) {
 
     if (argc != 4) {
         std::cout << "Wrong number of files!" << std::endl;
-        std::cout << "The format is following: <number of method> <input file> <output file>";
+        std::cout << "The format is following: ./stringToInt <number of method> <input file> <output file>";
         return 1;
     }
 
-    std::vector<string> numbers = read_file(std::string(argv[2]));
+    std::vector<string> numbers;
 
-    if (numbers.empty()) {
-        std::cout<<"Error, file is empty"<<std::endl;
+    numbers = read_file(std::string("../") + std::string(argv[2]));
+    if (numbers.size() == 0) {
         return 1;
     }
     std::vector<int> out;
     auto start = get_current_time_fenced();
-
-
-    switch (argv[1][0]) {
-        case '1':
-            out = transform(numbers, trStringStream);;
+    switch (argv[1][0] - '0') {
+        case 1:
+            out = transformStringStream(numbers);
             break;
-        case '2':
-            out = transform(numbers, trAtoi);;
+        case 2:
+            out = transformAtoi(numbers);
             break;
-        case '3':
-            out = transform(numbers, trStoi);;
-            break;
-        case '4':
-            out = transform(numbers, trHand);;
-            break;
-        default:
-            std::cout<<"Only 1 - 4 algorithms allowed"<<std::endl;
-            return 1;
     }
-
     auto end = get_current_time_fenced();
-    long long time = to_us(end - start);
-    std::cout<<time<<std::endl;
 
-    process_and_write(std::string(argv[3]), out);
+    long long time = to_us(end - start);
+
+    write_file(out, time);
 
     return 0;
 }
