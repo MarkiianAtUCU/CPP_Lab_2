@@ -7,4 +7,4 @@ def write_randint(n_rows, path, from_to=(-1073741, 1073741)):
             f.write(f"{random.randint(*from_to)}\n")
 
 
-write_randint(100000, "./out.txt")
+write_randint(1_00, "./in.txt")
