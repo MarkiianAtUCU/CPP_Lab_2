@@ -2,22 +2,28 @@ import os
 import time
 import sys
 
+transformations = ["StringStream", "Atoi", "Stoi", "Own function"]
 
 def runFile(times, inFile, outFile):
+    print("Processing data, microseconds:")
     os.system("./Lab2 1 {} {}".format(inFile, outFile))
     with open("../{}".format(outFile)) as f:
         lines = f.read().splitlines()
-    for i in range(1, 3):
-        totalTime = 0
+    for i in range(1, 5):
+        minimum = float('+inf')
         for _ in range(times):
+            start = time.time()
             os.system('./Lab2 {} {} {}'.format(i, inFile, outFile))
-            with open("../{}".format(outFile)) as f:
-                perm = f.read().splitlines()
-                totalTime += int(perm[2])
-                if lines[:1] != perm[:1]:
-                    print("Not same result")
-                    return 0
-        print("{} is {}".format(i, totalTime))
+            result = time.time() - start
+            if result < minimum:
+                minimum = result
+        with open("../{}".format(outFile)) as f:
+            perm = f.read().splitlines()
+            if lines[:2] != perm[:2]:
+                print("Not same results")
+                return 0
+        print("{}: {}".format(transformations[i-1], round(minimum*10**6)))
+    print("All results are the same")
 
 def main():
     if len(sys.argv) != 4:
