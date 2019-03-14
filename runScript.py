@@ -81,7 +81,7 @@ def main():
     for i in methods.items():
 
         method_time = test_method(i[1], iter_num)
-        print(f"* {i[0] + ' ' * (max(len(i[0]), 16)-len(i[0]))} [ {'OK' if check_result(python_res, 'res.txt') else 'FAIL'} ]  {method_time} us")
+        print(f" * {i[0] + ' ' * (max(len(i[0]), 16)-len(i[0]))} [ {'OK' if check_result(python_res, 'res.txt') else 'FAIL'} ]  {method_time} us")
 
 
 if __name__ == '__main__':
